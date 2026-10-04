@@ -1,0 +1,4 @@
+data/
+_*.html
+node_modules/
+.claude/

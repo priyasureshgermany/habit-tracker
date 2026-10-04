@@ -1,0 +1,52 @@
+#!/bin/sh
+# Guards releases. Install with: sh tools/install-hooks.sh
+#
+# The bump used to happen here, but a release now needs a note, and a hook
+# can't invent one. So this only checks that a release was prepared, and
+# refuses the commit otherwise:
+#
+#   node tools/bump-version.mjs --note "What changed in one line"
+#
+# The comparison is against what is RELEASED (origin/main), not against the
+# previous commit. One bump therefore covers a whole branch however many commits
+# it takes, so a round of review feedback no longer burns a version number. Add
+# to the version already prepared with:
+#
+#   node tools/bump-version.mjs --amend --note "And this too"
+#
+# Skipped for rebases and merges (replays, not releases) and for commits that
+# only touch data/, tools/ or the release files themselves.
+
+if [ -d "$(git rev-parse --git-path rebase-merge 2>/dev/null)" ] ||
+   [ -d "$(git rev-parse --git-path rebase-apply 2>/dev/null)" ] ||
+   [ -f "$(git rev-parse --git-path MERGE_HEAD 2>/dev/null)" ]; then
+  exit 0
+fi
+
+staged=$(git diff --cached --name-only)
+[ -z "$staged" ] && exit 0
+
+# Markdown is documentation, not shipped code — README, RELEASES and FEEDBACK
+# all change without the app changing, so none of them should force a release.
+if ! echo "$staged" | grep -qvE '^(data/|tools/|version\.json$)|\.md$'; then
+  exit 0
+fi
+
+base=$(git rev-parse --verify -q origin/main 2>/dev/null \
+     || git rev-parse --verify -q main 2>/dev/null \
+     || git rev-parse --verify -q HEAD 2>/dev/null)
+# The very first commit has nothing released to compare against.
+[ -z "$base" ] && exit 0
+released=$(git show "$base":version.json 2>/dev/null | sed -n 's/.*"version"[^"]*"\([^"]*\)".*/\1/p')
+current=$(sed -n 's/.*"version"[^"]*"\([^"]*\)".*/\1/p' version.json)
+
+if [ -n "$released" ] && [ "$released" = "$current" ]; then
+  echo "pre-commit: version is still $current, the same as released — prepare a release first:" >&2
+  echo "  node tools/bump-version.mjs --note \"What changed in one line\"" >&2
+  echo "(already bumped on this branch? add to that version instead:" >&2
+  echo "  node tools/bump-version.mjs --amend --note \"And this too\")" >&2
+  exit 1
+fi
+
+git add version.json index.html sw.js RELEASES.md
+exit 0
