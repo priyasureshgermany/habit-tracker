@@ -575,6 +575,7 @@ function openAbout(){
   const s = openSheet({ title: "About & update", back: true,
     body: '<div class="card" style="text-align:center"><img src="icons/icon-192.png" width="72" height="72" style="border-radius:18px" alt=""><div style="font-weight:800;font-size:18px;margin-top:8px">Habit Tracker</div>' +
       '<div class="muted small">Version ' + APP_VERSION + " · built " + APP_BUILT + '</div></div>' +
+      '<div class="note" style="margin-bottom:10px">Exercise illustrations by <a href="https://everkinetic.com" target="_blank" rel="noopener">Everkinetic</a> (Greg Priday), <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</div>' +
       '<div class="infobox">The app works offline and only changes when you press Update. Your data stays on this device, plus GitHub if you turn sync on.</div>' +
       '<div class="note" id="abMsg"></div><div class="btnrow"><button class="btn" id="abCheck">Check for update</button><button class="btn primary" id="abUpd">Update now</button></div>' });
   $("#abCheck", s.body).addEventListener("click", async () => {

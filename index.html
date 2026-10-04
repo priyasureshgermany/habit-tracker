@@ -393,21 +393,47 @@ textarea.input{min-height:140px;resize:vertical;line-height:1.5}
 .move svg{width:100%;height:auto;max-height:190px;display:block;padding-top:14px}
 .move::after{content:"▶ How to do it";position:absolute;left:10px;top:7px;font-size:10.5px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase}
 .move.bare::after{display:none}
-/* the figure: skin, clothes, trainers, the same in both themes, outlined for depth */
-.move{--skin:#C98B62;--skin-f:#A86F4B;--shirt:#3B82F6;--shirt-f:#2A62C4;--shorts:#27303F;--shorts-f:#1A212C;--hair:#22180F;--shoe:#F1F5F9;--shoe-f:#CBD5E1;--outline:rgba(20,14,30,.35)}
-.mv-skin{fill:var(--skin);stroke:var(--outline);stroke-width:.45}
-.mv-skin.f{fill:var(--skin-f)}
-.mv-shirt{fill:var(--shirt);stroke:var(--outline);stroke-width:.45}
-.mv-shirt.f{fill:var(--shirt-f)}
-.mv-shorts{fill:var(--shorts);stroke:var(--outline);stroke-width:.45}
-.mv-shorts.f{fill:var(--shorts-f)}
-.mv-shoe{fill:var(--shoe);stroke:#64748B;stroke-width:.5}
+/* The drawn figure is line art on white, in the same hand as the
+   Everkinetic illustrations it stands in for: white fills, dark outlines. */
+.move{--skin:#FFFFFF;--skin-f:#F1F1F3;--shirt:#FFFFFF;--shirt-f:#F1F1F3;--shorts:#FFFFFF;--shorts-f:#F1F1F3;--shoe:#FFFFFF;--shoe-f:#F1F1F3;--outline:#1F1B24;background:#FFFFFF;border-color:#E6E3EE}
+.move::after{color:#8A84A3}
+.mv-skin,.mv-shirt,.mv-shorts{fill:var(--skin);stroke:var(--outline);stroke-width:.9;stroke-linejoin:round}
+.mv-skin.f,.mv-shirt.f,.mv-shorts.f{fill:var(--skin-f)}
+.mv-shoe{fill:var(--shoe);stroke:var(--outline);stroke-width:.9}
 .mv-shoe.f{fill:var(--shoe-f)}
-.mv-hair{fill:var(--hair)}
-.mv-eye{fill:#1B1320}
-.mv-ear{fill:var(--skin-f)}
-.mv-hi{fill:#FB923C;opacity:.82;filter:drop-shadow(0 0 2.5px #F97316)}
+.mv-hair{fill:none;stroke:var(--outline);stroke-width:1.1;stroke-linecap:round}
+.mv-hi{display:none}
+.move .mv-floor{stroke:#D8D4E4}
+.move .mv-prop{fill:#E9E6F0}
+.move .mv-mat{fill:#EEE9FB}
+.move .mv-hill{fill:#E3F4E8}
+/* illustrations: start and finish, the finish fading in and out */
+.move.ek{padding:22px 8px 6px}
+.ek-stage{position:relative;display:grid;place-items:center;height:170px}
+.ek-stage img{grid-area:1/1;max-width:100%;max-height:170px;width:auto;height:100%;object-fit:contain;user-select:none}
+.ek-end{animation:ekSwap 3.4s ease-in-out infinite;animation-delay:var(--ek-at,0ms)}
+.ek-tag{position:absolute;right:6px;top:-16px;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:#EEE9FB;color:#5B21B6}
+.ek-b{animation:ekSwap 3.4s ease-in-out infinite;animation-delay:var(--ek-at,0ms);background:#FFEDD5;color:#9A3412}
+.ek-a{animation:ekSwap 3.4s ease-in-out infinite reverse;animation-delay:var(--ek-at,0ms)}
+@keyframes ekSwap{0%,40%{opacity:0}50%,90%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.ek-end,.ek-b{opacity:0}.ek-a{opacity:1}}
 .mv-db{fill:#3F4654;stroke:#1F2430;stroke-width:.5}
+.mv-wheel{fill:none;stroke:#334155;stroke-width:2.6}
+.mv-spoke{stroke:#94A3B8;stroke-width:.6;fill:none}
+.mv-frame{stroke:#E11D48;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;fill:#E11D48}
+path.mv-frame{fill:none}
+.mv-crank{stroke:#475569;stroke-linecap:round;fill:none}
+.mv-chain{stroke:#64748B;fill:none}
+.mv-rope{stroke:#F97316;stroke-width:1.4;fill:none}
+.mv-pole{stroke:#64748B;stroke-linecap:round}
+.mv-racket{fill:rgba(255,255,255,.35);stroke:#E11D48;stroke-width:1.2}
+.mv-water{fill:#38BDF8;opacity:.28}
+.mv-wave{fill:none;stroke:#38BDF8;stroke-width:1.2;opacity:.8}
+.mv-hill{fill:color-mix(in oklab,#22C55E 30%,var(--surface))}
+.mv-road{stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:6 8;animation:mvRoad .6s linear infinite}
+.mv-spin{animation:mvSpin .55s linear infinite}
+@keyframes mvRoad{to{stroke-dashoffset:14}}
+@keyframes mvSpin{to{transform:rotate(360deg)}}
 .mv-dbh{fill:#9AA3B2}
 .mv-floor{stroke:var(--line-strong);stroke-width:1.5}
 .move svg .mv-floor{vector-effect:non-scaling-stroke}
@@ -452,7 +478,7 @@ textarea.input{min-height:140px;resize:vertical;line-height:1.5}
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION = "1.1.1";
+const APP_VERSION = "1.1.2";
 const APP_BUILT = "2026-10-05";
 </script>
 <script src="data.js"></script>

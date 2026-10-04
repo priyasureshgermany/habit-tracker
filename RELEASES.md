@@ -5,6 +5,12 @@ release, and shown in the app under **More → What's new**.
 
 Each line is tagged `fix:`, `new:` or `better:` so the app can put an icon beside it.
 
+## 1.1.2 — 2026-10-05
+- new: Every cardio activity shows how it's done too: walking, running, cycling, swimming, skipping, stairs, hiking, cross trainer, rowing, dancing, yoga and badminton, each with its own kit — a bike with spinning wheels, a pool, a rope, a rowing machine
+- better: Strength exercises show professional illustrations: a start and a finish drawing by Everkinetic that blend into each other, for 32 of the 48
+- better: Where there's no illustration, the drawn figure is now line art to match, with a plain head instead of a face
+- fix: Knees and elbows no longer twist to the wrong side partway through a move
+
 ## 1.1.1 — 2026-10-05
 - new: Every exercise shows how it's done: a shaded, dressed figure moves through all 48, with the muscle it works glowing — in each exercise card, when you log sets, and in the routine player
 - fix: Nothing hides behind the + button any more: the last item on every screen scrolls clear of it

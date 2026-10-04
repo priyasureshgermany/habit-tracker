@@ -246,7 +246,7 @@ function openCardioLog(c, existing){
     foot: (existing ? '<button class="btn danger" data-a="del">' + ico("trash") + "</button>" : "") + '<button class="btn primary" data-a="save">' + ico("check") + " Save</button>" });
   function est(){ return Math.round(kcalOf(Object.assign({}, w, { kcal:0 }))); }
   function draw(){
-    s.body.innerHTML =
+    s.body.innerHTML = '<div class="move" data-move="cardio-' + c.id + '"></div>' +
       '<div class="infobox">' + esc(c.rec) + "</div>" +
       '<div class="two" style="margin-bottom:8px"><label class="field" style="margin:0"><span>Date</span><input class="input" id="cDate" type="date" max="' + todayISO() + '" value="' + esc(w.date) + '"></label>' +
       '<label class="field" style="margin:0"><span>Minutes</span><input class="input" id="cMin" type="number" inputmode="numeric" min="1" value="' + esc(w.min) + '"></label></div>' +
@@ -267,6 +267,7 @@ function openCardioLog(c, existing){
     $$("input", s.body).forEach(i => i.addEventListener("input", upd));
     $$("[data-min]", s.body).forEach(b => b.addEventListener("click", () => { upd(); w.min = +b.dataset.min; draw(); }));
     $$("[data-i]", s.body).forEach(b => b.addEventListener("click", () => { upd(); w.intensity = b.dataset.i; draw(); }));
+    mountMoves(s.body);
   }
   draw();
   $('[data-a="save"]', s.el).addEventListener("click", () => {

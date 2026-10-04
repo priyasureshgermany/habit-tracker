@@ -1,12 +1,14 @@
 /* The build you are running changes when you ask it to, and not before.
    The app's own files are served from SHELL, which nothing replaces on its
    own; only the in-app Update button clears the caches and reloads. */
-const VERSION = "1.1.1";
+const VERSION = "1.1.2";
 const ASSETS = "habits-" + VERSION;   /* icons, manifest, notes — versioned, purged */
 const SHELL = "habits-shell";         /* the app itself — replaced only on request */
 
 const SHELL_URLS = ["./index.html", "./data.js", "./core.js", "./habits.js", "./fitness.js", "./moves.js", "./diary.js", "./reports.js", "./settings.js"];
-const ASSET_URLS = ["./manifest.webmanifest", "./RELEASES.md", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png"];
+/* exercise illustrations (moves/README.md) */
+const EK_URLS = ["./moves/0018-relaxation.svg", "./moves/0018-tension.svg", "./moves/0021-relaxation.svg", "./moves/0021-tension.svg", "./moves/0024-relaxation.svg", "./moves/0024-tension.svg", "./moves/0032-relaxation.svg", "./moves/0032-tension.svg", "./moves/0033-relaxation.svg", "./moves/0033-tension.svg", "./moves/0038-relaxation.svg", "./moves/0038-tension.svg", "./moves/0055-relaxation.svg", "./moves/0055-tension.svg", "./moves/0056-relaxation.svg", "./moves/0056-tension.svg", "./moves/0077-relaxation.svg", "./moves/0077-tension.svg", "./moves/0090-relaxation.svg", "./moves/0090-tension.svg", "./moves/0105-relaxation.svg", "./moves/0105-tension.svg", "./moves/0109-relaxation.svg", "./moves/0109-tension.svg", "./moves/0113-relaxation.svg", "./moves/0113-tension.svg", "./moves/0115-relaxation.svg", "./moves/0115-tension.svg", "./moves/0116-relaxation.svg", "./moves/0116-tension.svg", "./moves/0130-relaxation.svg", "./moves/0130-tension.svg", "./moves/0137-relaxation.svg", "./moves/0137-tension.svg", "./moves/0152-relaxation.svg", "./moves/0152-tension.svg", "./moves/0162-relaxation.svg", "./moves/0162-tension.svg", "./moves/0181-relaxation.svg", "./moves/0181-tension.svg", "./moves/0188-relaxation.svg", "./moves/0188-tension.svg", "./moves/0198-relaxation.svg", "./moves/0198-tension.svg", "./moves/0204-relaxation.svg", "./moves/0204-tension.svg", "./moves/0220-relaxation.svg", "./moves/0220-tension.svg", "./moves/0224-relaxation.svg", "./moves/0224-tension.svg", "./moves/0227-relaxation.svg", "./moves/0227-tension.svg", "./moves/0257-relaxation.svg", "./moves/0257-tension.svg", "./moves/0261-relaxation.svg", "./moves/0261-tension.svg", "./moves/0281-relaxation.svg", "./moves/0281-tension.svg", "./moves/0284-relaxation.svg", "./moves/0284-tension.svg", "./moves/0291-relaxation.svg", "./moves/0291-tension.svg"];
+const ASSET_URLS = EK_URLS.concat(["./manifest.webmanifest", "./RELEASES.md", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png"]);
 
 const fresh = (u) => fetch(new Request(u, { cache: "reload" }));
 
