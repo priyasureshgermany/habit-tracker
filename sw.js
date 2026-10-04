@@ -1,7 +1,7 @@
 /* The build you are running changes when you ask it to, and not before.
    The app's own files are served from SHELL, which nothing replaces on its
    own; only the in-app Update button clears the caches and reloads. */
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const ASSETS = "habits-" + VERSION;   /* icons, manifest, notes — versioned, purged */
 const SHELL = "habits-shell";         /* the app itself — replaced only on request */
 
