@@ -6,16 +6,9 @@
 
 function renderMore(){
   const v = $("#view-more");
-  const p = state.profile, bmi = bmiOf();
-  const initials = (p.name || "").trim().split(/\s+/).map(x => x[0] || "").join("").slice(0, 2).toUpperCase() || "🙂";
   const waiting = GH.enabled ? ghChanges().length : 0;
   v.innerHTML =
     '<div class="top"><div><div class="kicker">Version ' + APP_VERSION + "</div><h1>More</h1></div></div>" +
-    '<button class="hero" id="mrProfile" style="display:block;width:100%;text-align:left;border:none"><div class="row" style="gap:14px">' +
-    '<div style="width:62px;height:62px;border-radius:20px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:24px;font-weight:800;flex:none">' + esc(initials) + "</div>" +
-    '<div class="grow"><div style="font-size:20px;font-weight:800">' + esc(p.name || "Set up your profile") + '</div><div class="sub">' + esc(p.email || "Name, email, age, weight and height") + "</div>" +
-    (bmi ? '<div class="sub" style="margin-top:4px">BMI ' + fmtN(bmi, 1) + " · " + bmiBand(bmi).name + (p.age ? " · " + esc(p.age) + " yrs" : "") + "</div>" : "") +
-    '</div><span style="font-size:22px;opacity:.8">›</span></div></button>' +
     '<div class="tiles" style="margin-bottom:14px">' +
     '<button class="tile" id="mrRep"><div class="ti">📊</div><div class="tn">Reports</div><div class="ts">Habits, fitness, mood</div></button>' +
     '<button class="tile" id="mrNew"><div class="ti">✨</div><div class="tn">What\'s new</div><div class="ts">Release notes</div></button>' +
@@ -29,7 +22,6 @@ function renderMore(){
     '<div class="stat"><div class="v">' + activeHabits().length + '</div><div class="l">Habits</div></div>' +
     '<div class="stat"><div class="v">' + state.workouts.length + '</div><div class="l">Workouts</div></div>' +
     '<div class="stat"><div class="v">' + state.diary.length + '</div><div class="l">Diary entries</div></div></div></div>';
-  $("#mrProfile").addEventListener("click", openProfile);
   $("#mrRep").addEventListener("click", () => openReports());
   $("#mrNew").addEventListener("click", openNotes);
   $("#mrSet").addEventListener("click", openSettings);
