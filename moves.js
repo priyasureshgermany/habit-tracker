@@ -409,7 +409,8 @@ function mvFrame(def){
    Where a professional drawing exists, it is used instead of the figure:
    Everkinetic's start ("relaxation") and finish ("tension") drawings, by Greg
    Priday, CC BY-SA 4.0 — see moves/README.md. The app blends between the two.
-   Exercises not in this map keep the drawn figure. */
+   Every strength exercise has one; the drawn figure is for cardio, and for
+   exercises retired from the library. */
 const MV_EK = {
   crunch:"0291", legraise:"0021", bicycle:"0284", flutter:"0116", sideplank:"0113",
   curl:"0224", hammer:"0227", conc:"0220", bandcurl:"0261", chinup:"0090", revcurl:"0257",
@@ -417,7 +418,10 @@ const MV_EK = {
   ohp:"0038", lateral:"0018", front:"0033", reardelt:"0032",
   pushup:"0077", widepush:"0077", bench:"0055", fly:"0056",
   squat:"0130", lunge:"0115", stepup:"0137", sumo:"0152",
-  bridge:"0109", superman:"0105", row:"0024", calfraise:"0281"
+  bridge:"0109", superman:"0105", row:"0024", calfraise:"0281",
+  drawin:"0027", revcrunch:"0287", crossbody:"0289", sidebend:"0294", uprow:"0016", shrug:"0005",
+  zottman:"0251", crosshammer:"0221", platecurl:"0241", declinepush:"0075", benchsquat:"0136",
+  revlunge:"0129", standkick:"0111", dbdeadlift:"0107", bandfly:"0020", seatcalf:"0276"
 };
 function mvIllustration(el, id, name){
   const n = MV_EK[id];
