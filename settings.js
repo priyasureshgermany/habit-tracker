@@ -19,8 +19,11 @@ function renderMore(){
     '<div class="tiles" style="margin-bottom:14px">' +
     '<button class="tile" id="mrRep"><div class="ti">📊</div><div class="tn">Reports</div><div class="ts">Habits, fitness, mood</div></button>' +
     '<button class="tile" id="mrNew"><div class="ti">✨</div><div class="tn">What\'s new</div><div class="ts">Release notes</div></button>' +
-    '<button class="tile" id="mrSet"><div class="ti">⚙️</div><div class="tn">Settings</div><div class="ts">Goals, theme, reminders</div></button>' +
-    '<button class="tile" id="mrSync">' + (waiting ? '<span class="tdot"></span>' : "") + '<div class="ti">☁️</div><div class="tn">GitHub sync</div><div class="ts">' + (GH.enabled ? (waiting ? waiting + " change" + (waiting === 1 ? "" : "s") + " to push" : "Up to date") : "Off") + "</div></button>" +
+    /* Settings holds GitHub sync too, so it is the one way in. It spans the
+       row, and says when there is something waiting to be pushed. */
+    '<button class="tile" id="mrSet" style="grid-column:1/-1;flex-direction:row;align-items:center;gap:12px">' + (waiting ? '<span class="tdot"></span>' : "") +
+    '<div class="ti">⚙️</div><div class="grow"><div class="tn">Settings</div><div class="ts">Profile, goals, theme, reminders, GitHub sync, backup' +
+    (waiting ? ' · <b style="color:var(--flame)">' + waiting + " change" + (waiting === 1 ? "" : "s") + " to push</b>" : "") + '</div></div><span class="chev" style="color:var(--ink-3);font-size:18px">›</span></button>' +
     "</div>" +
     '<div class="card"><h3>📈 At a glance</h3><div class="stats" style="margin:0">' +
     '<div class="stat"><div class="v">' + activeHabits().length + '</div><div class="l">Habits</div></div>' +
@@ -30,7 +33,6 @@ function renderMore(){
   $("#mrRep").addEventListener("click", () => openReports());
   $("#mrNew").addEventListener("click", openNotes);
   $("#mrSet").addEventListener("click", openSettings);
-  $("#mrSync").addEventListener("click", openGithub);
 }
 VIEWS.more = { render: renderMore, fab: null };
 
@@ -42,7 +44,7 @@ function openSettings(){
     ["🎨", "Appearance", "Theme and colours", openAppearance],
     ["🎙️", "Diary", "Dictation language", openDiarySettings],
     ["🔔", "Reminders", state.settings.reminders ? "On" : "Off", openReminders],
-    ["☁️", "GitHub sync", GH.enabled ? "On · " + GH.repo : "Off", openGithub],
+    ["☁️", "GitHub sync", GH.enabled ? (ghChanges().length ? ghChanges().length + " change" + (ghChanges().length === 1 ? "" : "s") + " to push · " : "Up to date · ") + GH.repo : "Off", openGithub],
     ["💾", "Backup & restore", "Download, restore, start over", openBackup],
     ["ℹ️", "About & update", "Version " + APP_VERSION, openAbout]
   ];
