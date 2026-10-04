@@ -11,7 +11,8 @@ let fitMuscle = "abs";
 const STRENGTH_MET = 5.0;   /* calisthenics / resistance training, moderate effort */
 
 const cardioById = (id) => CARDIO.find(c => c.id === id);
-const exById = (id) => EXERCISES.find(e => e.id === id);
+const exById = (id) => EXERCISES.find(e => e.id === id) ||
+  (RETIRED_EXERCISES[id] ? Object.assign({ id, how:[""], tip:"", sets:3, reps:10, eq:"", lvl:"" }, RETIRED_EXERCISES[id]) : undefined);
 const muscleById = (id) => MUSCLES.find(m => m.id === id);
 
 /** Minutes that count toward the 150: moderate ×1, vigorous ×2, light not at all. */

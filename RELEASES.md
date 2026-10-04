@@ -5,6 +5,10 @@ release, and shown in the app under **More → What's new**.
 
 Each line is tagged `fix:`, `new:` or `better:` so the app can put an icon beside it.
 
+## 1.1.3 — 2026-10-05
+- better: Every strength exercise now has a professional illustration: 16 that only had the drawn figure were swapped for similar ones that do — draw-in, reverse and cross-body crunches, side bends, upright rows, shrugs, Zottman and cross-body hammer curls, plate curls, decline push-ups, squat to bench, reverse lunges, standing kickbacks, dumbbell deadlifts, band reverse flys and seated calf raises
+- better: The routines use the new exercises; workouts you logged with the old ones keep their names
+
 ## 1.1.2 — 2026-10-05
 - new: Every cardio activity shows how it's done too: walking, running, cycling, swimming, skipping, stairs, hiking, cross trainer, rowing, dancing, yoga and badminton, each with its own kit — a bike with spinning wheels, a pool, a rope, a rowing machine
 - better: Strength exercises show professional illustrations: a start and a finish drawing by Everkinetic that blend into each other, for 32 of the 48
