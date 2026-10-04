@@ -146,10 +146,10 @@ function fitOverview(body){
 
   body.innerHTML =
     '<div class="hero"><div class="sub" style="margin-bottom:12px">This week · ' + esc(fmtDay(wk.from, { day:"numeric", month:"short" })) + " – " + esc(fmtDay(wk.to, { day:"numeric", month:"short" })) + "</div>" +
-    '<div class="row" style="gap:12px;justify-content:space-around">' +
-    '<div style="text-align:center"><div style="width:96px;height:96px;margin:0 auto">' + ringBox(wk.modMin / cg, '<div><div style="font-size:20px;font-weight:800">' + Math.round(wk.modMin) + '</div><div style="font-size:10.5px;opacity:.85">of ' + cg + "</div></div>", { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Active min</div></div>' +
-    '<div style="text-align:center"><div style="width:96px;height:96px;margin:0 auto">' + ringBox(wk.strengthDays / sg, '<div><div style="font-size:20px;font-weight:800">' + wk.strengthDays + '</div><div style="font-size:10.5px;opacity:.85">of ' + sg + " days</div></div>", { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Strength</div></div>' +
-    '<div style="text-align:center"><div style="width:96px;height:96px;margin:0 auto">' + ringBox(Math.min(1, tdSteps / stg), '<div><div style="font-size:18px;font-weight:800">' + (tdSteps >= 1000 ? fmtN(tdSteps / 1000, 1) + "k" : tdSteps) + '</div><div style="font-size:10.5px;opacity:.85">steps today</div></div>', { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Steps</div></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">' +
+    '<div style="text-align:center;min-width:0"><div style="width:100%;max-width:96px;aspect-ratio:1;margin:0 auto">' + ringBox(wk.modMin / cg, '<div><div style="font-size:20px;font-weight:800">' + Math.round(wk.modMin) + '</div><div style="font-size:10.5px;opacity:.85">of ' + cg + "</div></div>", { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Active min</div></div>' +
+    '<div style="text-align:center;min-width:0"><div style="width:100%;max-width:96px;aspect-ratio:1;margin:0 auto">' + ringBox(wk.strengthDays / sg, '<div><div style="font-size:20px;font-weight:800">' + wk.strengthDays + '</div><div style="font-size:10.5px;opacity:.85">of ' + sg + " days</div></div>", { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Strength</div></div>' +
+    '<div style="text-align:center;min-width:0"><div style="width:100%;max-width:96px;aspect-ratio:1;margin:0 auto">' + ringBox(Math.min(1, tdSteps / stg), '<div><div style="font-size:18px;font-weight:800">' + (tdSteps >= 1000 ? fmtN(tdSteps / 1000, 1) + "k" : tdSteps) + '</div><div style="font-size:10.5px;opacity:.85">steps today</div></div>', { size:96, w:10 }) + '</div><div class="sub" style="margin-top:6px">Steps</div></div>' +
     "</div></div>" +
     '<div class="stats"><div class="stat"><div class="v">' + fmtN(tdMin) + '<small> min</small></div><div class="l">Today</div></div>' +
     '<div class="stat"><div class="v">' + fmtN(tdKcal) + '<small> kcal</small></div><div class="l">Burned today</div></div>' +
@@ -205,10 +205,13 @@ function fitStrength(body){
     "</div></div></div>" +
     list.map(e => '<div class="ex" data-e="' + e.id + '"><button class="ex-h"><div class="lico" style="width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);font-size:20px">' + m.icon + "</div>" +
       '<div class="grow"><div class="ex-n">' + esc(e.name) + '</div><div class="ex-s">' + e.sets + " × " + (e.secs ? e.secs + " s" : e.reps + " reps") + " · " + esc(e.eq) + " · " + esc(e.lvl) + '</div></div><span class="chev">⌄</span></button>' +
-      '<div class="ex-b"><ol>' + e.how.map(x => "<li>" + esc(x) + "</li>").join("") + '</ol><div class="tipbox">💡 ' + esc(e.tip) + "</div>" +
+      '<div class="ex-b"><div class="move" data-move="' + e.id + '"></div><ol>' + e.how.map(x => "<li>" + esc(x) + "</li>").join("") + '</ol><div class="tipbox">💡 ' + esc(e.tip) + "</div>" +
       '<button class="btn primary block" data-log="' + e.id + '">' + ico("plus") + " Log sets</button></div></div>").join("");
   $$("[data-g]", body).forEach(b => b.addEventListener("click", () => { fitMuscle = b.dataset.g; renderFitness(); }));
-  $$(".ex-h", body).forEach(b => b.addEventListener("click", () => b.parentElement.classList.toggle("open")));
+  $$(".ex-h", body).forEach(b => b.addEventListener("click", () => {
+    b.parentElement.classList.toggle("open");
+    mountMoves(b.parentElement);
+  }));
   $$("[data-log]", body).forEach(b => b.addEventListener("click", () => openStrengthLog(exById(b.dataset.log))));
 }
 
@@ -245,9 +248,9 @@ function openCardioLog(c, existing){
   function draw(){
     s.body.innerHTML =
       '<div class="infobox">' + esc(c.rec) + "</div>" +
-      '<div class="two"><label class="field"><span>Date</span><input class="input" id="cDate" type="date" max="' + todayISO() + '" value="' + esc(w.date) + '"></label>' +
-      '<label class="field"><span>Minutes</span><input class="input" id="cMin" type="number" inputmode="numeric" min="1" value="' + esc(w.min) + '"></label></div>' +
-      '<div class="chips" style="margin:-4px 0 14px">' + [10, 15, 20, 30, 45, 60, 90].map(m => '<button class="chip' + (num(w.min) === m ? " on" : "") + '" data-min="' + m + '">' + m + " min</button>").join("") + "</div>" +
+      '<div class="two" style="margin-bottom:8px"><label class="field" style="margin:0"><span>Date</span><input class="input" id="cDate" type="date" max="' + todayISO() + '" value="' + esc(w.date) + '"></label>' +
+      '<label class="field" style="margin:0"><span>Minutes</span><input class="input" id="cMin" type="number" inputmode="numeric" min="1" value="' + esc(w.min) + '"></label></div>' +
+      '<div class="chips" style="margin:0 0 14px">' + [10, 15, 20, 30, 45, 60, 90].map(m => '<button class="chip' + (num(w.min) === m ? " on" : "") + '" data-min="' + m + '">' + m + " min</button>").join("") + "</div>" +
       '<div class="field"><span>Intensity</span><div class="seg">' + [["light","Light"],["moderate","Moderate"],["vigorous","Vigorous"]].map(o => '<button data-i="' + o[0] + '" class="' + (w.intensity === o[0] ? "on" : "") + '">' + o[1] + "</button>").join("") + "</div>" +
       '<div class="note" style="margin-top:-8px">' + (w.intensity === "light" ? "Light activity is good for you, but it doesn't count toward the 150-minute target." :
         w.intensity === "moderate" ? "Moderate: breathing faster, but you can still talk." : "Vigorous: you can only say a few words at a time. These minutes count double.") + "</div></div>" +
@@ -289,7 +292,7 @@ function openStrengthLog(e, existing){
   const s = openSheet({ title: e.name, tall: true,
     foot: (existing ? '<button class="btn danger" data-a="del">' + ico("trash") + "</button>" : "") + '<button class="btn primary" data-a="save">' + ico("check") + " Save workout</button>" });
   function draw(){
-    s.body.innerHTML =
+    s.body.innerHTML = '<div class="move" data-move="' + e.id + '"></div>' +
       '<div class="row" style="margin-bottom:12px"><div style="width:70px;flex:none">' + bodyMapSVG(muscleById(e.g).zone) + '</div><div class="grow small" style="color:var(--ink-2)">' +
       "<b>Recommended:</b> " + e.sets + " × " + (e.secs ? e.secs + " s" : e.reps + " reps") + "<br>" + esc(e.tip) +
       (last ? '<div class="muted" style="margin-top:6px">Last time (' + esc(fmtDay(last.date, { day:"numeric", month:"short" })) + "): " + esc(workoutSub(last)) + "</div>" : "") + "</div></div>" +
@@ -315,6 +318,7 @@ function openStrengthLog(e, existing){
     $("#sAdd", s.body).addEventListener("click", () => { w.sets.push(Object.assign({}, w.sets[w.sets.length - 1])); draw(); });
     $("#sDate", s.body).addEventListener("input", (ev) => w.date = ev.target.value || w.date);
     $("#sMin", s.body).addEventListener("input", (ev) => w.min = num(ev.target.value, 0));
+    mountMoves(s.body);
   }
   draw();
   $('[data-a="save"]', s.el).addEventListener("click", () => {
@@ -382,8 +386,10 @@ function startRoutine(r){
       '<div class="pring">' + ringSVG(phase === "work" && !st.secs ? 1 : frac, { size:220, w:14, track:"var(--surface-sunk)", c1:r.color, c2:"var(--a2)" }) + '<div class="pc">' + center + "</div></div>" +
       '<div class="muted small" style="margin-top:14px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">' + label + "</div>" +
       '<div class="pex">' + esc(show.e.name) + '</div><div class="muted">Set ' + show.set + " of " + show.sets + " · " + (show.secs ? show.secs + " s" : show.reps + " reps") + "</div>" +
-      '<div class="tipbox" style="margin-top:14px;text-align:left">💡 ' + esc(show.e.how[0]) + " " + esc(show.e.tip) + "</div></div>";
+      '<div class="move" style="margin-top:12px" data-move="' + show.e.id + '"></div>' +
+      '<div class="tipbox" style="text-align:left">💡 ' + esc(show.e.how[0]) + " " + esc(show.e.tip) + "</div></div>";
     $('[data-a="main"]', s.el).textContent = mainBtn;
+    mountMoves(s.body);
   }
   function next(){
     if (phase === "work"){ doneSets++; i++; if (i >= steps.length){ phase = "finish"; clearInterval(timer); beep(); confetti(); draw(); return; } phase = "rest"; left = r.rest; }

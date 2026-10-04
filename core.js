@@ -93,8 +93,12 @@ function load(){
     state = stateBlank();
   }
 }
+/* Set by every save; a screen left showing older figures under a sheet is
+   redrawn when the last sheet closes. */
+let needsRender = false;
 /** Saves locally and nothing else. Never schedules a push. */
 function save(){
+  needsRender = true;
   if (loadFailed) return;
   try{ localStorage.setItem(STORE, JSON.stringify(state)); }
   catch(e){ toast("Storage is full — could not save"); }
@@ -158,7 +162,7 @@ function openSheet(opt){
   if (typeof opt.body === "string") body.innerHTML = opt.body;
   if (opt.foot) $(".sheet-foot", el).innerHTML = opt.foot;
   const api = {
-    el, body, foot: $(".sheet-foot", el), closed: false,
+    el, body, foot: $(".sheet-foot", el), closed: false, refresh: opt.refresh || null,
     setTitle(t){ $(".sheet-h h2", el).textContent = t; },
     close(){
       if (api.closed) return;
@@ -167,7 +171,13 @@ function openSheet(opt){
       el.classList.remove("vis"); scrim.classList.remove("vis");
       setTimeout(() => { el.remove(); scrim.remove(); }, 340);
       if (opt.onClose) opt.onClose();
-      if (!sheetStack.length) document.body.style.overflow = "";
+      /* what is underneath catches up with whatever changed up here */
+      const below = sheetStack[sheetStack.length - 1];
+      if (below && below.refresh) below.refresh();
+      if (!sheetStack.length){
+        document.body.style.overflow = "";
+        if (needsRender || currentView === "more") rerender();
+      }
     }
   };
   scrim.addEventListener("click", () => api.close());
@@ -299,10 +309,11 @@ function go(name){
   $$(".tab").forEach(t => t.classList.toggle("on", t.dataset.view === name));
   $("#fab").hidden = !VIEWS[name].fab;
   try{ localStorage.setItem("habits.view", name); }catch(e){}
+  needsRender = false;
   VIEWS[name].render();
   window.scrollTo(0, 0);
 }
-function rerender(){ if (VIEWS[currentView]) VIEWS[currentView].render(); }
+function rerender(){ needsRender = false; if (VIEWS[currentView]) VIEWS[currentView].render(); }
 
 /* ---------- profile-derived figures ---------- */
 function weightKg(){ return num(state.profile.weight, 0); }

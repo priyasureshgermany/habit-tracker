@@ -1,11 +1,11 @@
 /* The build you are running changes when you ask it to, and not before.
    The app's own files are served from SHELL, which nothing replaces on its
    own; only the in-app Update button clears the caches and reloads. */
-const VERSION = "1.1.0";
+const VERSION = "1.1.1";
 const ASSETS = "habits-" + VERSION;   /* icons, manifest, notes — versioned, purged */
 const SHELL = "habits-shell";         /* the app itself — replaced only on request */
 
-const SHELL_URLS = ["./index.html", "./data.js", "./core.js", "./habits.js", "./fitness.js", "./diary.js", "./reports.js", "./settings.js"];
+const SHELL_URLS = ["./index.html", "./data.js", "./core.js", "./habits.js", "./fitness.js", "./moves.js", "./diary.js", "./reports.js", "./settings.js"];
 const ASSET_URLS = ["./manifest.webmanifest", "./RELEASES.md", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png"];
 
 const fresh = (u) => fetch(new Request(u, { cache: "reload" }));

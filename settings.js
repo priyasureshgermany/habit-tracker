@@ -29,20 +29,26 @@ function renderMore(){
 VIEWS.more = { render: renderMore, fab: null };
 
 function openSettings(){
-  const s = openSheet({ title: "Settings", tall: true });
-  const items = [
-    ["👤", "Profile", "Name, email, age, weight, height", openProfile],
-    ["🎯", "Goals", "Weekly cardio, strength days, steps", openGoals],
-    ["🎨", "Appearance", "Theme and colours", openAppearance],
-    ["🎙️", "Diary", "Dictation language", openDiarySettings],
-    ["🔔", "Reminders", state.settings.reminders ? "On" : "Off", openReminders],
-    ["☁️", "GitHub sync", GH.enabled ? (ghChanges().length ? ghChanges().length + " change" + (ghChanges().length === 1 ? "" : "s") + " to push · " : "Up to date · ") + GH.repo : "Off", openGithub],
-    ["💾", "Backup & restore", "Download, restore, start over", openBackup],
-    ["ℹ️", "About & update", "Version " + APP_VERSION, openAbout]
-  ];
-  s.body.innerHTML = '<div class="list">' + items.map((it, i) => '<button class="li" data-i="' + i + '"><div class="lico">' + it[0] + '</div><div class="grow"><div class="lt">' + it[1] +
-    '</div><div class="ls">' + esc(it[2]) + '</div></div><span class="chev">›</span></button>').join("") + "</div>";
-  $$("[data-i]", s.body).forEach(b => b.addEventListener("click", () => items[+b.dataset.i][3]()));
+  const s = openSheet({ title: "Settings", tall: true, refresh: () => draw() });
+  /* Drawn again whenever a panel opened from here closes, so "Reminders: Off"
+     or "3 changes to push" never outlives the change that made it untrue. */
+  function draw(){
+    const waiting = GH.enabled ? ghChanges().length : 0;
+    const items = [
+      ["👤", "Profile", "Name, email, age, weight, height", openProfile],
+      ["🎯", "Goals", "Weekly cardio, strength days, steps", openGoals],
+      ["🎨", "Appearance", "Theme and colours", openAppearance],
+      ["🎙️", "Diary", "Dictation language", openDiarySettings],
+      ["🔔", "Reminders", state.settings.reminders ? "On" : "Off", openReminders],
+      ["☁️", "GitHub sync", GH.enabled ? (waiting ? waiting + " change" + (waiting === 1 ? "" : "s") + " to push · " : "Up to date · ") + GH.repo : "Off", openGithub],
+      ["💾", "Backup & restore", "Download, restore, start over", openBackup],
+      ["ℹ️", "About & update", "Version " + APP_VERSION, openAbout]
+    ];
+    s.body.innerHTML = '<div class="list">' + items.map((it, i) => '<button class="li" data-i="' + i + '"><div class="lico">' + it[0] + '</div><div class="grow"><div class="lt">' + it[1] +
+      '</div><div class="ls">' + esc(it[2]) + '</div></div><span class="chev">›</span></button>').join("") + "</div>";
+    $$("[data-i]", s.body).forEach(b => b.addEventListener("click", () => items[+b.dataset.i][3]()));
+  }
+  draw();
 }
 
 /* ---------- Profile ---------- */
