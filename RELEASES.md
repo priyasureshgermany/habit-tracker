@@ -5,6 +5,9 @@ release, and shown in the app under **More → What's new**.
 
 Each line is tagged `fix:`, `new:` or `better:` so the app can put an icon beside it.
 
+## 1.1.0 — 2026-10-05
+- better: Your profile lives in one place, Settings → Profile; the card on More is gone
+
 ## 1.0.1 — 2026-10-04
 - better: GitHub sync has one way in, under Settings; the More screen's Settings card shows when changes are waiting to be pushed
 
