@@ -40,7 +40,8 @@ GitHub backup.
 | `core.js` | Helpers, dates, **state** (`stateBlank` / `stateFromPayload`), sheets, audio store, router |
 | `habits.js` | Scheduling, streaks, the one `contribution()` rule every rate is built from; Today and Habits screens |
 | `fitness.js` | Fitness screen, logging sheets, routine player |
-| `moves.js` | Exercise animations: a pose per key frame (hip, shoulder, hands, feet), knees and elbows solved by IK |
+| `moves.js` | How-to animations: Everkinetic start/finish illustrations where they exist (`MV_EK`), otherwise a line-art figure posed by key points with knees and elbows solved by IK |
+| `moves/` | The Everkinetic illustrations, CC BY-SA 4.0 — see `moves/README.md` |
 | `diary.js` | Diary screen and editor (dictation, recording) |
 | `reports.js` | Reports and the SVG charts |
 | `settings.js` | More, Settings, GitHub sync, backup, What's new, update, reminders, sample data, `boot()` |
