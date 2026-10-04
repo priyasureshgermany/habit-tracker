@@ -5,6 +5,13 @@ release, and shown in the app under **More → What's new**.
 
 Each line is tagged `fix:`, `new:` or `better:` so the app can put an icon beside it.
 
+## 1.1.1 — 2026-10-05
+- new: Every exercise shows how it's done: a shaded, dressed figure moves through all 48, with the muscle it works glowing — in each exercise card, when you log sets, and in the routine player
+- fix: Nothing hides behind the + button any more: the last item on every screen scrolls clear of it
+- fix: The Fitness rings fit on narrow phones
+- fix: Settings and More catch up straight away after a change, so a pushed backup no longer still says changes are waiting
+- better: Cardio log: the minute shortcuts sit cleanly under Date and Minutes
+
 ## 1.1.0 — 2026-10-05
 - better: Your profile lives in one place, Settings → Profile; the card on More is gone
 

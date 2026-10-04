@@ -40,6 +40,7 @@ GitHub backup.
 | `core.js` | Helpers, dates, **state** (`stateBlank` / `stateFromPayload`), sheets, audio store, router |
 | `habits.js` | Scheduling, streaks, the one `contribution()` rule every rate is built from; Today and Habits screens |
 | `fitness.js` | Fitness screen, logging sheets, routine player |
+| `moves.js` | Exercise animations: a pose per key frame (hip, shoulder, hands, feet), knees and elbows solved by IK |
 | `diary.js` | Diary screen and editor (dictation, recording) |
 | `reports.js` | Reports and the SVG charts |
 | `settings.js` | More, Settings, GitHub sync, backup, What's new, update, reminders, sample data, `boot()` |
